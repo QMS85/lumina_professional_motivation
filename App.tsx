@@ -174,3 +174,60 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+// src/App.tsx (example - adapt to your structure)
+import { useState } from 'react';
+import { generateQuote, checkHealth } from './services/quoteService';
+
+export function App() {
+  const [quote, setQuote] = useState('');
+  const [author, setAuthor] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [theme, setTheme] = useState('Leadership');
+
+  const handleGenerate = async () => {
+    setLoading(true);
+    setError('');
+
+    const result = await generateQuote(theme);
+
+    if (result.success) {
+      setQuote(result.data.quote);
+      setAuthor(result.data.author);
+    } else {
+      setError(result.error || 'Failed to generate quote');
+    }
+
+    setLoading(false);
+  };
+
+  return (
+    <div className="lumina-container">
+      <h1>Professional Motivation Studio</h1>
+
+      <div className="theme-selector">
+        <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+          <option value="Leadership">Leadership</option>
+          <option value="Innovation">Innovation</option>
+          <option value="Resilience">Resilience</option>
+          <option value="Strategy">Strategy</option>
+          <option value="Vision">Vision</option>
+        </select>
+      </div>
+
+      <button onClick={handleGenerate} disabled={loading}>
+        {loading ? 'Generating...' : 'Generate Quote'}
+      </button>
+
+      {error && <div className="error">{error}</div>}
+
+      {quote && (
+        <div className="quote-card">
+          <blockquote>{quote}</blockquote>
+          <footer>{author}</footer>
+        </div>
+      )}
+    </div>
+  );
+}
