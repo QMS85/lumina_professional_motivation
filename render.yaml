@@ -1,0 +1,30 @@
+# render.yaml - Render deployment configuration
+services:
+  - type: web
+    name: lumina-backend
+    runtime: node
+    plan: standard
+    startCommand: npm run build && npm start
+    buildCommand: npm install
+    envVars:
+      - key: PORT
+        value: "5000"
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_URL
+        value: https://lumina-frontend.onrender.com
+      - key: GEMINI_API_KEY
+        sync: false # Prevent accidental exposure
+    healthCheckPath: /health
+    routes:
+      - type: http
+        path: /api
+        priority: 1
+
+  - type: static_site
+    name: lumina-frontend
+    buildCommand: npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://lumina-backend.onrender.com
