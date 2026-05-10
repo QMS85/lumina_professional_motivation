@@ -1,0 +1,190 @@
+[
+  {
+    "id": 7,
+    "author": "user",
+    "payload": {
+      "type": "text",
+      "text": "Would you create an app that generates extremely professional and unique positive and motivational quotes ",
+      "files": [],
+      "fileUploads": [],
+      "cMarkNode": {}
+    },
+    "createdTimestamp": 1767265203682
+  },
+  {
+    "id": 8,
+    "author": "model",
+    "payload": {
+      "type": "thinking",
+      "text": "**Generating Powerful Quotes**\n\nI've decided to prioritize a React application that crafts remarkably professional and distinctive positive and motivational quotes. Tailwind CSS will ensure a stunning visual presentation. My focus now is integrating the `gemini-3-flash-preview` model for text generation, to truly harness its capabilities.\n\n\n**Exploring App Functionality**\n\nI'm now fully immersed in the core features, focusing on user interaction and the aesthetics that'll resonate with the target audience. I'm building out theme selection, share buttons, image generation, and a history log. The UI will look and feel premium. I'm planning out the file structure too.\n\n\n**Detailing the Architecture**\n\nI'm currently crafting the architecture. Components like `ThemeSelector`, `ActionButtons`, and `HistorySidebar` are taking shape. I'm leveraging `gemini-3-flash-preview` for text and `gemini-2.5-flash-image` for abstract backgrounds. I'm focusing on a premium look with Inter or Serif fonts and a minimalist layout. I'm also ensuring smooth transitions. It's key to remember the correct API names to avoid errors.\n\n\n**Integrating Professional Tone**\n\nI'm now refining the outputs to consistently exude a distinctly professional tone. I'm experimenting with prompt adjustments and model fine-tuning to elevate the language and overall impact of each quote. I'm also ensuring a high degree of personalization for the user. I've been focusing on integrating feedback loops for continuous improvement.\n\n\n",
+      "cMarkNode": {}
+    },
+    "createdTimestamp": 1767265203682,
+    "doneTimestamp": 1767265213819
+  },
+  {
+    "id": 9,
+    "author": "model",
+    "payload": {
+      "type": "generationTable",
+      "entries": [
+        {
+          "path": "metadata.json",
+          "generationType": 0,
+          "isDone": true,
+          "description": "Application metadata including name, description and required permissions.",
+          "diffs": [
+            {
+              "target": "",
+              "replacement": "\n{\n  \"name\": \"Lumina: Professional Motivation\",\n  \"description\": \"A high-end motivational quote generator that uses Gemini AI to craft bespoke, sophisticated wisdom for leaders, innovators, and dreamers.\",\n  \"requestFramePermissions\": []\n}\n"
+            }
+          ]
+        },
+        {
+          "path": "index.html",
+          "generationType": 0,
+          "isDone": true,
+          "description": "Main HTML entry point with Tailwind CSS and Inter font.",
+          "diffs": [
+            {
+              "target": "",
+              "replacement": "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Lumina - Bespoke Wisdom</title>\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap\" rel=\"stylesheet\">\n    <style>\n        body {\n            font-family: 'Inter', sans-serif;\n            background-color: #0a0a0a;\n            color: #f8f8f8;\n            overflow-x: hidden;\n        }\n        .font-serif {\n            font-family: 'Playfair Display', serif;\n        }\n        .quote-gradient {\n            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);\n        }\n    </style>\n</head>\n<body>\n    <div id=\"root\"></div>\n</body>\n</html>\n"
+            }
+          ]
+        },
+        {
+          "path": "index.tsx",
+          "generationType": 0,
+          "isDone": true,
+          "description": "Application entry point using React 18+ createRoot API.",
+          "diffs": [
+            {
+              "target": "",
+              "replacement": "\nimport React from 'react';\nimport ReactDOM from 'react-dom/client';\nimport App from './App';\n\nconst rootElement = document.getElementById('root');\nif (!rootElement) {\n  throw new Error(\"Could not find root element to mount to\");\n}\n\nconst root = ReactDOM.createRoot(rootElement);\nroot.render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);\n"
+            }
+          ]
+        },
+        {
+          "path": "types.ts",
+          "generationType": 0,
+          "isDone": true,
+          "description": "Global TypeScript types and interfaces.",
+          "diffs": [
+            {
+              "target": "",
+              "replacement": "\nexport interface Quote {\n  id: string;\n  text: string;\n  author: string;\n  theme: string;\n  timestamp: number;\n  imageUrl?: string;\n}\n\nexport enum QuoteTheme {\n  LEADERSHIP = 'Leadership & Vision',\n  RESILIENCE = 'Resilience & Grit',\n  INNOVATION = 'Innovation & Creativity',\n  MINDFULNESS = 'Mindfulness & Clarity',\n  EXCELLENCE = 'Excellence & Mastery',\n  AMBITION = 'Ambition & Growth'\n}\n\nexport interface QuoteGenerationResult {\n  quote: string;\n  author: string;\n}\n"
+            }
+          ]
+        },
+        {
+          "path": "services/geminiService.ts",
+          "generationType": 0,
+          "isDone": true,
+          "description": "Gemini API service for generating quotes and matching background images.",
+          "diffs": [
+            {
+              "target": "",
+              "replacement": "\nimport { GoogleGenAI, Type, GenerateContentResponse } from \"@google/genai\";\nimport { QuoteTheme, QuoteGenerationResult } from \"../types\";\n\nconst API_KEY = process.env.API_KEY || '';\n\nexport const generateQuote = async (theme: QuoteTheme): Promise<QuoteGenerationResult> => {\n  const ai = new GoogleGenAI({ apiKey: API_KEY });\n  \n  const response = await ai.models.generateContent({\n    model: \"gemini-3-flash-preview\",\n    contents: `Generate a sophisticated, professional, and unique motivational quote about ${theme}. \n    Avoid clichés like 'don't give up' or 'believe in yourself'. \n    The quote should sound like it was written by a modern-day philosopher or a high-impact CEO. \n    It should be punchy, insightful, and profoundly positive.`,\n    config: {\n      thinkingConfig: { thinkingBudget: 2000 },\n      responseMimeType: \"application/json\",\n      responseSchema: {\n        type: Type.OBJECT,\n        properties: {\n          quote: {\n            type: Type.STRING,\n            description: 'The bespoke motivational quote.',\n          },\n          author: {\n            type: Type.STRING,\n            description: 'A sophisticated fictional or historical-sounding author name, or attribution.',\n          },\n        },\n        required: [\"quote\", \"author\"]\n      },\n    },\n  });\n\n  try {\n    const data = JSON.parse(response.text || '{}');\n    return {\n      quote: data.quote || \"The future belongs to those who prepare for it today.\",\n      author: data.author || \"Lumina Wisdom\"\n    };\n  } catch (error) {\n    console.error(\"Failed to parse quote JSON\", error);\n    return {\n      quote: \"Success is not final, failure is not fatal: it is the courage to continue that counts.\",\n      author: \"Winston Churchill\"\n    };\n  }\n};\n\nexport const generateQuoteImage = async (quote: string, theme: string): Promise<string | undefined> => {\n  const ai = new GoogleGenAI({ apiKey: API_KEY });\n  \n  const prompt = `Create a stunning, minimalist, and abstract background image for a professional quote about ${theme}. \n  The mood should be elegant, sophisticated, and inspirational. Use a high-end color palette like deep teals, \n  muted golds, or atmospheric charcoal. No text in the image. Cinematic lighting, soft bokeh, and high-quality textures.`;\n\n  const response = await ai.models.generateContent({\n    model: 'gemini-2.5-flash-image',\n    contents: {\n      parts: [\n        {\n          text: prompt,\n        },\n      ],\n    },\n    config: {\n      imageConfig: {\n        aspectRatio: \"16:9\",\n      },\n    },\n  });\n\n  for (const part of response.candidates?.[0]?.content?.parts || []) {\n    if (part.inlineData) {\n      return `data:image/png;base64,${part.inlineData.data}`;\n    }\n  }\n  return undefined;\n};\n"
+            }
+          ]
+        },
+        {
+          "path": "components/QuoteCard.tsx",
+          "generationType": 0,
+          "isDone": true,
+          "description": "A beautiful card component to display the generated quote with high-end typography.",
+          "diffs": [
+            {
+              "target": "",
+              "replacement": "\nimport React from 'react';\nimport { Quote } from '../types';\n\ninterface QuoteCardProps {\n  quote: Quote | null;\n  isLoading: boolean;\n}\n\nconst QuoteCard: React.FC<QuoteCardProps> = ({ quote, isLoading }) => {\n  if (isLoading) {\n    return (\n      <div className=\"relative w-full max-w-4xl h-[400px] md:h-[500px] rounded-3xl overflow-hidden border border-white/10 flex items-center justify-center bg-zinc-900/50 backdrop-blur-sm animate-pulse\">\n        <div className=\"text-center\">\n          <div className=\"w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4\"></div>\n          <p className=\"text-zinc-400 font-medium tracking-widest uppercase text-xs\">Crafting Wisdom...</p>\n        </div>\n      </div>\n    );\n  }\n\n  if (!quote) {\n    return (\n      <div className=\"relative w-full max-w-4xl h-[400px] md:h-[500px] rounded-3xl overflow-hidden border border-white/10 flex items-center justify-center bg-zinc-900/50 backdrop-blur-sm group cursor-pointer\">\n        <div className=\"text-center p-8 transition-transform duration-700 group-hover:scale-105\">\n           <h2 className=\"text-4xl md:text-5xl font-serif mb-4 italic text-white/90\">Wisdom Awaits</h2>\n           <p className=\"text-zinc-500 max-w-md mx-auto\">Select a theme above to generate a bespoke professional insight powered by Lumina.</p>\n        </div>\n      </div>\n    );\n  }\n\n  return (\n    <div className=\"relative w-full max-w-4xl min-h-[400px] md:min-h-[500px] rounded-3xl overflow-hidden border border-white/10 flex items-center justify-center transition-all duration-1000 ease-in-out shadow-2xl group\">\n      {/* Background Image with Overlay */}\n      <div \n        className=\"absolute inset-0 bg-cover bg-center transition-transform duration-[2000ms] group-hover:scale-110\"\n        style={{ backgroundImage: quote.imageUrl ? `url(${quote.imageUrl})` : 'linear-gradient(to bottom right, #1a1a1a, #000)' }}\n      >\n        <div className=\"absolute inset-0 bg-black/60 backdrop-blur-[2px]\" />\n        <div className=\"absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20\" />\n      </div>\n\n      {/* Quote Content */}\n      <div className=\"relative z-10 px-8 md:px-16 py-12 text-center max-w-3xl\">\n        <svg className=\"w-12 h-12 text-white/20 mx-auto mb-8 transform -scale-x-100\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n          <path d=\"M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 7.55228 14.017 7V5C14.017 4.44772 14.4647 4 15.017 4H19.017C20.6738 4 22.017 5.34315 22.017 7V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM3.01693 21L3.01693 18C3.01693 16.8954 3.91236 16 5.01693 16H8.01693C8.56921 16 9.01693 15.5523 9.01693 15V9C9.01693 8.44772 8.56921 8 8.01693 8H4.01693C3.46465 8 3.01693 7.55228 3.01693 7V5C3.01693 4.44772 3.46465 4 4.01693 4H8.01693C9.67378 4 11.0169 5.34315 11.0169 7V15C11.0169 18.3137 8.33064 21 5.01693 21H3.01693Z\" />\n        </svg>\n        \n        <h2 className=\"text-2xl md:text-4xl lg:text-5xl font-serif text-white leading-tight md:leading-snug mb-8 transition-opacity duration-700\">\n          {quote.text}\n        </h2>\n        \n        <div className=\"flex flex-col items-center\">\n          <div className=\"w-12 h-[1px] bg-white/30 mb-4\"></div>\n          <span className=\"text-sm md:text-base font-medium text-white/60 tracking-[0.2em] uppercase\">\n            {quote.author}\n          </span>\n          <span className=\"mt-2 text-[10px] text-white/30 tracking-widest uppercase font-semibold px-3 py-1 border border-white/10 rounded-full\">\n            {quote.theme}\n          </span>\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default QuoteCard;\n"
+            }
+          ]
+        },
+        {
+          "path": "components/ThemeSelector.tsx",
+          "generationType": 0,
+          "isDone": true,
+          "description": "A premium theme selection grid.",
+          "diffs": [
+            {
+              "target": "",
+              "replacement": "\nimport React from 'react';\nimport { QuoteTheme } from '../types';\n\ninterface ThemeSelectorProps {\n  selectedTheme: QuoteTheme;\n  onSelectTheme: (theme: QuoteTheme) => void;\n  disabled?: boolean;\n}\n\nconst ThemeSelector: React.FC<ThemeSelectorProps> = ({ selectedTheme, onSelectTheme, disabled }) => {\n  const themes = Object.values(QuoteTheme);\n\n  return (\n    <div className=\"grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 w-full max-w-6xl mx-auto px-4\">\n      {themes.map((theme) => (\n        <button\n          key={theme}\n          onClick={() => onSelectTheme(theme)}\n          disabled={disabled}\n          className={`\n            px-4 py-3 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all duration-300 border\n            ${selectedTheme === theme \n              ? 'bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]' \n              : 'bg-zinc-900/50 text-zinc-400 border-white/10 hover:border-white/30 hover:bg-zinc-800'\n            }\n            ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}\n          `}\n        >\n          {theme.split(' & ')[0]}\n        </button>\n      ))}\n    </div>\n  );\n};\n\nexport default ThemeSelector;\n"
+            }
+          ]
+        },
+        {
+          "path": "App.tsx",
+          "generationType": 0,
+          "isDone": true,
+          "description": "The main application component managing state, history, and integration.",
+          "diffs": [
+            {
+              "target": "",
+              "replacement": "\nimport React, { useState, useEffect, useCallback } from 'react';\nimport { Quote, QuoteTheme } from './types';\nimport { generateQuote, generateQuoteImage } from './services/geminiService';\nimport QuoteCard from './components/QuoteCard';\nimport ThemeSelector from './components/ThemeSelector';\n\nconst App: React.FC = () => {\n  const [selectedTheme, setSelectedTheme] = useState<QuoteTheme>(QuoteTheme.LEADERSHIP);\n  const [currentQuote, setCurrentQuote] = useState<Quote | null>(null);\n  const [history, setHistory] = useState<Quote[]>([]);\n  const [isLoading, setIsLoading] = useState(false);\n  const [error, setError] = useState<string | null>(null);\n\n  const handleGenerate = useCallback(async () => {\n    setIsLoading(true);\n    setError(null);\n    try {\n      const result = await generateQuote(selectedTheme);\n      const imageUrl = await generateQuoteImage(result.quote, selectedTheme);\n      \n      const newQuote: Quote = {\n        id: crypto.randomUUID(),\n        text: result.quote,\n        author: result.author,\n        theme: selectedTheme,\n        timestamp: Date.now(),\n        imageUrl: imageUrl\n      };\n\n      setCurrentQuote(newQuote);\n      setHistory(prev => [newQuote, ...prev].slice(0, 10)); // Keep last 10\n    } catch (err) {\n      console.error(err);\n      setError(\"The muse is currently silent. Please try again in a moment.\");\n    } finally {\n      setIsLoading(false);\n    }\n  }, [selectedTheme]);\n\n  const copyToClipboard = () => {\n    if (currentQuote) {\n      const text = `\"${currentQuote.text}\" — ${currentQuote.author}`;\n      navigator.clipboard.writeText(text);\n      // Optional: Add a toast notification here\n      alert(\"Quote copied to clipboard.\");\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen flex flex-col bg-[#0a0a0a]\">\n      {/* Navigation / Header */}\n      <header className=\"w-full py-8 px-6 md:px-12 flex justify-between items-center border-b border-white/5\">\n        <div className=\"flex items-center gap-3\">\n          <div className=\"w-8 h-8 bg-white rounded-full flex items-center justify-center\">\n            <div className=\"w-4 h-4 bg-black rounded-full animate-pulse\"></div>\n          </div>\n          <h1 className=\"text-xl font-bold tracking-[0.3em] uppercase\">Lumina</h1>\n        </div>\n        <div className=\"hidden md:block text-xs text-zinc-500 tracking-widest uppercase font-medium\">\n          Professional Insights & Motivating Wisdom\n        </div>\n      </header>\n\n      {/* Main Content */}\n      <main className=\"flex-grow flex flex-col items-center justify-center px-4 py-12 gap-12\">\n        <div className=\"text-center max-w-2xl mx-auto space-y-4\">\n          <span className=\"text-xs font-bold text-white/40 tracking-[0.4em] uppercase\">Select Your Focus</span>\n          <ThemeSelector \n            selectedTheme={selectedTheme} \n            onSelectTheme={setSelectedTheme} \n            disabled={isLoading}\n          />\n        </div>\n\n        <div className=\"w-full flex flex-col items-center gap-8\">\n          <QuoteCard quote={currentQuote} isLoading={isLoading} />\n          \n          {error && <p className=\"text-red-400 text-sm font-medium animate-bounce\">{error}</p>}\n\n          <div className=\"flex flex-wrap justify-center gap-4\">\n            <button\n              onClick={handleGenerate}\n              disabled={isLoading}\n              className={`\n                group relative px-10 py-4 bg-white text-black font-bold tracking-widest uppercase rounded-full overflow-hidden transition-all duration-300\n                ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95 hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]'}\n              `}\n            >\n              <span className=\"relative z-10\">{isLoading ? 'Synthesizing...' : 'Generate New Insight'}</span>\n              <div className=\"absolute inset-0 bg-zinc-200 translate-y-full group-hover:translate-y-0 transition-transform duration-300\"></div>\n            </button>\n\n            {currentQuote && (\n              <button\n                onClick={copyToClipboard}\n                className=\"px-8 py-4 bg-zinc-900 text-white font-bold tracking-widest uppercase rounded-full border border-white/10 hover:border-white/30 hover:bg-zinc-800 transition-all duration-300 flex items-center gap-2\"\n              >\n                <svg className=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n                  <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth=\"2\" d=\"M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3\" />\n                </svg>\n                Copy\n              </button>\n            )}\n          </div>\n        </div>\n      </main>\n\n      {/* History Section */}\n      {history.length > 0 && (\n        <section className=\"w-full bg-zinc-950 border-t border-white/5 py-16 px-6 md:px-12\">\n          <div className=\"max-w-6xl mx-auto\">\n            <h3 className=\"text-sm font-bold tracking-[0.4em] uppercase text-zinc-500 mb-8 border-l-2 border-white/20 pl-4\">Recent Chronicles</h3>\n            <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n              {history.map((item) => (\n                <div \n                  key={item.id} \n                  className=\"bg-zinc-900/40 p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-all group cursor-pointer\"\n                  onClick={() => setCurrentQuote(item)}\n                >\n                  <p className=\"text-zinc-400 font-serif italic mb-4 line-clamp-3 group-hover:text-white transition-colors\">\"{item.text}\"</p>\n                  <div className=\"flex justify-between items-center\">\n                    <span className=\"text-[10px] font-bold text-zinc-600 uppercase tracking-widest\">{item.author}</span>\n                    <span className=\"text-[9px] px-2 py-0.5 bg-zinc-800 text-zinc-500 rounded uppercase\">{item.theme.split(' ')[0]}</span>\n                  </div>\n                </div>\n              ))}\n            </div>\n          </div>\n        </section>\n      )}\n\n      {/* Footer */}\n      <footer className=\"w-full py-12 px-6 text-center border-t border-white/5 text-zinc-600\">\n        <p className=\"text-xs tracking-widest uppercase font-medium\">© 2024 Lumina Wisdom Studio • Powered by Gemini Flash</p>\n      </footer>\n    </div>\n  );\n};\n\nexport default App;\n"
+            }
+          ]
+        }
+      ]
+    },
+    "createdTimestamp": 1767265213822,
+    "doneTimestamp": 1767265214086
+  },
+  {
+    "id": 11,
+    "author": "user",
+    "payload": {
+      "type": "text",
+      "text": "1. Implement a 'Share' button for the current quote that allows users to share the quote via native sharing options or a social media link.\n\n2. Add a subtle animation to the ThemeSelector buttons when a theme is selected, making the selection more visually engaging.",
+      "files": [],
+      "fileUploads": [],
+      "cMarkNode": {}
+    },
+    "createdTimestamp": 1767265553401
+  },
+  {
+    "id": 12,
+    "author": "model",
+    "payload": {
+      "type": "thinking",
+      "text": "**Considering Sharing Options**\n\nI've been exploring how best to integrate a sharing functionality into \"Lumina\". My focus is on leveraging the Web Share API for native sharing, but I'm also planning a robust fallback method. The goal is to ensure users can share quotes seamlessly across various devices and platforms, regardless of browser support. Right now I'm debating the best fallback options to maintain ease-of-use.\n\n\n**Integrating Sharing Functionality**\n\nI'm now fully committed to integrating a \"Share\" button directly within the quote card, sitting right next to the \"Copy\" button. This will enable quick sharing via the Web Share API. If the API isn't supported, I'll fallback to a toast notification, or a simple message, that a link has been copied to the clipboard. As for theme selection, I've decided to stick with a purely CSS-driven approach, specifically Tailwind classes for a subtle \"pop\" animation when a theme is selected, keeping the dependency list lean.\n\n\n**Implementing Share Logic**\n\nI've decided on `navigator.share` as the primary sharing method, and I'm updating `App.tsx` accordingly. I'm adding a `handleShare` function and a share button in the action area of the quote card. Simultaneously, I'm enhancing the theme selector in `ThemeSelector.tsx`, making the buttons more dynamic by adding a visual \"ring\" or \"scale\" effect when active, aiming for improved user feedback. Time to get coding!\n\n\n",
+      "cMarkNode": {}
+    },
+    "createdTimestamp": 1767265553401,
+    "doneTimestamp": 1767265576612
+  },
+  {
+    "id": 13,
+    "author": "model",
+    "payload": {
+      "type": "generationTable",
+      "entries": [
+        {
+          "path": "components/ThemeSelector.tsx",
+          "generationType": 1,
+          "isDone": true,
+          "description": "Add subtle selection animations and enhanced visual feedback for theme buttons.",
+          "diffs": [
+            {
+              "target": "",
+              "replacement": "\nimport React from 'react';\nimport { QuoteTheme } from '../types';\n\ninterface ThemeSelectorProps {\n  selectedTheme: QuoteTheme;\n  onSelectTheme: (theme: QuoteTheme) => void;\n  disabled?: boolean;\n}\n\nconst ThemeSelector: React.FC<ThemeSelectorProps> = ({ selectedTheme, onSelectTheme, disabled }) => {\n  const themes = Object.values(QuoteTheme);\n\n  return (\n    <div className=\"grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 w-full max-w-6xl mx-auto px-4\">\n      {themes.map((theme) => {\n        const isSelected = selectedTheme === theme;\n        return (\n          <button\n            key={theme}\n            onClick={() => onSelectTheme(theme)}\n            disabled={disabled}\n            className={`\n              relative px-4 py-3 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all duration-500 border\n              ${isSelected \n                ? 'bg-white text-black border-white shadow-[0_0_25px_rgba(255,255,255,0.25)] scale-105 z-10' \n                : 'bg-zinc-900/50 text-zinc-400 border-white/10 hover:border-white/30 hover:bg-zinc-800 hover:scale-102'\n              }\n              ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-95'}\n            `}\n          >\n            {/* Subtle inner glow for selected state */}\n            {isSelected && (\n              <span className=\"absolute inset-0 rounded-xl animate-pulse bg-white/10 pointer-events-none\"></span>\n            )}\n            <span className=\"relative z-10\">{theme.split(' & ')[0]}</span>\n            \n            {/* Bottom indicator line */}\n            <div className={`\n              absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 bg-black/20 rounded-full transition-all duration-500\n              ${isSelected ? 'w-4' : 'w-0'}\n            `}></div>\n          </button>\n        );\n      })}\n    </div>\n  );\n};\n\nexport default ThemeSelector;\n"
+            }
+          ]
+        },
+        {
+          "path": "App.tsx",
+          "generationType": 1,
+          "isDone": true,
+          "description": "Implement handleShare functionality using the Web Share API and add a Share button to the UI.",
+          "diffs": [
+            {
+              "target": "",
+              "replacement": "\nimport React, { useState, useEffect, useCallback } from 'react';\nimport { Quote, QuoteTheme } from './types';\nimport { generateQuote, generateQuoteImage } from './services/geminiService';\nimport QuoteCard from './components/QuoteCard';\nimport ThemeSelector from './components/ThemeSelector';\n\nconst App: React.FC = () => {\n  const [selectedTheme, setSelectedTheme] = useState<QuoteTheme>(QuoteTheme.LEADERSHIP);\n  const [currentQuote, setCurrentQuote] = useState<Quote | null>(null);\n  const [history, setHistory] = useState<Quote[]>([]);\n  const [isLoading, setIsLoading] = useState(false);\n  const [error, setError] = useState<string | null>(null);\n\n  const handleGenerate = useCallback(async () => {\n    setIsLoading(true);\n    setError(null);\n    try {\n      const result = await generateQuote(selectedTheme);\n      const imageUrl = await generateQuoteImage(result.quote, selectedTheme);\n      \n      const newQuote: Quote = {\n        id: crypto.randomUUID(),\n        text: result.quote,\n        author: result.author,\n        theme: selectedTheme,\n        timestamp: Date.now(),\n        imageUrl: imageUrl\n      };\n\n      setCurrentQuote(newQuote);\n      setHistory(prev => [newQuote, ...prev].slice(0, 10)); // Keep last 10\n    } catch (err) {\n      console.error(err);\n      setError(\"The muse is currently silent. Please try again in a moment.\");\n    } finally {\n      setIsLoading(false);\n    }\n  }, [selectedTheme]);\n\n  const copyToClipboard = () => {\n    if (currentQuote) {\n      const text = `\"${currentQuote.text}\" — ${currentQuote.author}`;\n      navigator.clipboard.writeText(text);\n      // We could use a custom toast here, but alert is the simplest fallback\n      alert(\"Quote copied to clipboard.\");\n    }\n  };\n\n  const handleShare = async () => {\n    if (!currentQuote) return;\n\n    const shareData = {\n      title: 'Lumina Bespoke Wisdom',\n      text: `\"${currentQuote.text}\" — ${currentQuote.author} (${currentQuote.theme})`,\n      url: window.location.href,\n    };\n\n    try {\n      if (navigator.share && navigator.canShare(shareData)) {\n        await navigator.share(shareData);\n      } else {\n        // Fallback: Copy to clipboard if sharing is not supported\n        copyToClipboard();\n        alert(\"Sharing not supported on this browser. Quote copied to clipboard instead.\");\n      }\n    } catch (err) {\n      console.error(\"Error sharing:\", err);\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen flex flex-col bg-[#0a0a0a]\">\n      {/* Navigation / Header */}\n      <header className=\"w-full py-8 px-6 md:px-12 flex justify-between items-center border-b border-white/5\">\n        <div className=\"flex items-center gap-3\">\n          <div className=\"w-8 h-8 bg-white rounded-full flex items-center justify-center\">\n            <div className=\"w-4 h-4 bg-black rounded-full animate-pulse\"></div>\n          </div>\n          <h1 className=\"text-xl font-bold tracking-[0.3em] uppercase\">Lumina</h1>\n        </div>\n        <div className=\"hidden md:block text-xs text-zinc-500 tracking-widest uppercase font-medium\">\n          Professional Insights & Motivating Wisdom\n        </div>\n      </header>\n\n      {/* Main Content */}\n      <main className=\"flex-grow flex flex-col items-center justify-center px-4 py-12 gap-12\">\n        <div className=\"text-center max-w-2xl mx-auto space-y-4\">\n          <span className=\"text-xs font-bold text-white/40 tracking-[0.4em] uppercase\">Select Your Focus</span>\n          <ThemeSelector \n            selectedTheme={selectedTheme} \n            onSelectTheme={setSelectedTheme} \n            disabled={isLoading}\n          />\n        </div>\n\n        <div className=\"w-full flex flex-col items-center gap-8\">\n          <QuoteCard quote={currentQuote} isLoading={isLoading} />\n          \n          {error && <p className=\"text-red-400 text-sm font-medium animate-bounce\">{error}</p>}\n\n          <div className=\"flex flex-wrap justify-center gap-4\">\n            <button\n              onClick={handleGenerate}\n              disabled={isLoading}\n              className={`\n                group relative px-10 py-4 bg-white text-black font-bold tracking-widest uppercase rounded-full overflow-hidden transition-all duration-300\n                ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95 hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]'}\n              `}\n            >\n              <span className=\"relative z-10\">{isLoading ? 'Synthesizing...' : 'Generate New Insight'}</span>\n              <div className=\"absolute inset-0 bg-zinc-200 translate-y-full group-hover:translate-y-0 transition-transform duration-300\"></div>\n            </button>\n\n            {currentQuote && (\n              <>\n                <button\n                  onClick={copyToClipboard}\n                  className=\"px-8 py-4 bg-zinc-900 text-white font-bold tracking-widest uppercase rounded-full border border-white/10 hover:border-white/30 hover:bg-zinc-800 transition-all duration-300 flex items-center gap-2 active:scale-95\"\n                  title=\"Copy to clipboard\"\n                >\n                  <svg className=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n                    <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth=\"2\" d=\"M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3\" />\n                  </svg>\n                  Copy\n                </button>\n                <button\n                  onClick={handleShare}\n                  className=\"px-8 py-4 bg-zinc-900 text-white font-bold tracking-widest uppercase rounded-full border border-white/10 hover:border-white/30 hover:bg-zinc-800 transition-all duration-300 flex items-center gap-2 active:scale-95\"\n                  title=\"Share quote\"\n                >\n                  <svg className=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n                    <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth=\"2\" d=\"M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z\" />\n                  </svg>\n                  Share\n                </button>\n              </>\n            )}\n          </div>\n        </div>\n      </main>\n\n      {/* History Section */}\n      {history.length > 0 && (\n        <section className=\"w-full bg-zinc-950 border-t border-white/5 py-16 px-6 md:px-12\">\n          <div className=\"max-w-6xl mx-auto\">\n            <h3 className=\"text-sm font-bold tracking-[0.4em] uppercase text-zinc-500 mb-8 border-l-2 border-white/20 pl-4\">Recent Chronicles</h3>\n            <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n              {history.map((item) => (\n                <div \n                  key={item.id} \n                  className=\"bg-zinc-900/40 p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-all group cursor-pointer\"\n                  onClick={() => setCurrentQuote(item)}\n                >\n                  <p className=\"text-zinc-400 font-serif italic mb-4 line-clamp-3 group-hover:text-white transition-colors\">\"{item.text}\"</p>\n                  <div className=\"flex justify-between items-center\">\n                    <span className=\"text-[10px] font-bold text-zinc-600 uppercase tracking-widest\">{item.author}</span>\n                    <span className=\"text-[9px] px-2 py-0.5 bg-zinc-800 text-zinc-500 rounded uppercase\">{item.theme.split(' ')[0]}</span>\n                  </div>\n                </div>\n              ))}\n            </div>\n          </div>\n        </section>\n      )}\n\n      {/* Footer */}\n      <footer className=\"w-full py-12 px-6 text-center border-t border-white/5 text-zinc-600\">\n        <p className=\"text-xs tracking-widest uppercase font-medium\">© 2024 Lumina Wisdom Studio • Powered by Gemini Flash</p>\n      </footer>\n    </div>\n  );\n};\n\nexport default App;\n"
+            }
+          ]
+        }
+      ]
+    },
+    "createdTimestamp": 1767265576612,
+    "doneTimestamp": 1767265578819
+  }
+]
